@@ -3,13 +3,12 @@ package test.projeto.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import test.projeto.dto.DtoCadastroLivro;
 import test.projeto.dto.DtoDetalhamentoLivro;
 import test.projeto.service.LivroService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/c")
@@ -29,6 +28,19 @@ public class LivrosController {
         DtoDetalhamentoLivro dto = new DtoDetalhamentoLivro(dados.nome(), dados.autor(), dados.descricao());
 
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/procurar/nome/{nome}")
+    public ResponseEntity<List<DtoDetalhamentoLivro>> retornaLivroPorNome(@PathVariable("nome") String nome){
+        List<DtoDetalhamentoLivro> listaDeLivrosComOMesmoNome = livroService.retornaLivroPorNome(nome);
+        return ResponseEntity.ok(listaDeLivrosComOMesmoNome);
+    }
+
+
+    @GetMapping("/procurar/autor/{autor}")
+    public ResponseEntity<List<DtoDetalhamentoLivro>> retornaLivroPorAutor(@PathVariable("autor") String autor){
+        List<DtoDetalhamentoLivro> livroList = livroService.retornaLivroPorAutor(autor);
+        return ResponseEntity.ok(livroList);
     }
 
 }
