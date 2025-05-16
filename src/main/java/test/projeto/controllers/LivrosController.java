@@ -4,13 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import test.projeto.dto.DTOAutorRegister;
 import test.projeto.dto.DtoCadastroLivro;
 import test.projeto.dto.DtoDetalhamentoLivro;
+import test.projeto.entitys.Autor;
 import test.projeto.service.LivroService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/c")
 public class LivrosController {
 
@@ -25,7 +27,8 @@ public class LivrosController {
     public ResponseEntity<DtoDetalhamentoLivro> salvaLivro(@RequestBody DtoCadastroLivro dados){
         livroService.salvaLivro(dados);
 
-        DtoDetalhamentoLivro dto = new DtoDetalhamentoLivro(dados.nome(), dados.autor(), dados.descricao());
+        DtoDetalhamentoLivro dto = new DtoDetalhamentoLivro(dados.nome(), dados.autor().nome()
+                , dados.descricao());
 
         return ResponseEntity.ok(dto);
     }
@@ -37,9 +40,9 @@ public class LivrosController {
     }
 
 
-    @GetMapping("/procurar/autor/{autor}")
-    public ResponseEntity<List<DtoDetalhamentoLivro>> retornaLivroPorAutor(@PathVariable("autor") String autor){
-        List<DtoDetalhamentoLivro> livroList = livroService.retornaLivroPorAutor(autor);
+    @GetMapping("/procurar/autor/{nome}")
+    public ResponseEntity<List<DtoDetalhamentoLivro>> retornaLivroPorAutor(@PathVariable("nome") String nome){
+        List<DtoDetalhamentoLivro> livroList = livroService.retornaLivroPorAutor(nome);
         return ResponseEntity.ok(livroList);
     }
 

@@ -21,15 +21,17 @@ public class Livro {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Autor autor;
 
     @Column(nullable = false)
     private String descricao;
 
-    public Livro(DtoCadastroLivro dados) {
-        this.autor = dados.autor();
+    public Livro(DtoCadastroLivro dados, Autor autor) {
+
         this.nome = dados.nome();
+        this.autor = autor;
         this.descricao = dados.descricao();
     }
 

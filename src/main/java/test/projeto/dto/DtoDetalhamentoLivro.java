@@ -10,6 +10,6 @@ public record DtoDetalhamentoLivro(
         String descricao
 ) {
     public DtoDetalhamentoLivro(Livro livro){
-        this(livro.getNome(), livro.getAutor(), livro.getDescricao());
+        this(livro.getNome(), livro.getAutor().getNome(), livro.getDescricao());
     }
 }
